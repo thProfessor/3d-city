@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/chenzlabs/aframe-ar@master/dist/aframe-ar.min.js"></script> -->
+    <title>Learning 3D</title>
+</head>
+
+<body>
+
+    <script>
+        AFRAME.registerComponent('keypad', {
+            init: function () {
+                let el = this.el;
+                let position = el.getAttribute('position');
+                let impulse = new CANNON.Vec3(0, 0, 0);
+                let speed = 2;
+                document.addEventListener("keydown", function (e) {
+                    if (e.key == "u") {
+                        impulse.z -= speed;
+                    }
+                    el.body.applyImpulse(impulse, new CANNON.Vec3().copy(el.body.position));
+                })
+            }
+        })
+    </script>
+
+    <a-scene physics="debug:true;">
+
+        <a-camera>
+            <a-cursor></a-cursor>
+        </a-camera>
+
+
+        <a-assests>
+            <img src="texture/brick/basecolor.jpg" id="base">
+            <img src="texture/brick/normal.jpg" id="normal">
+            <img src="texture/brick/roadbase.jpg" id="roadb">
+            <img src="texture/brick/roadnormal.jpg" id="roadn">
+            <a-asset-item id="tree" src="model/scene.gltf"></a-asset-item>
+            <a-asset-item id="pump" src="model/pump.gltf"></a-asset-item>
+            <a-asset-item id="car" src="model/car.gltf"></a-asset-item>
+            <a-asset-item id="station" src="model/station.gltf"></a-asset-item>
+            <!-- <video id="penguin-sledding" autoplay loop="true" src="mp4.mp4"></video> -->
+        </a-assests>
+
+        <a-entity text="value:press u to move and fly;" geometry="primitive: plane; height: 0.05; width: 1;"
+            material="color: blue" position="0.602 1.352 6.942" scale="2 2 2">
+        </a-entity>
+
+
+        <a-cylinder position="0 1.07 -3" src="#base" normal-map="#normal" scale="1 2.18 1" rotation="0 30 0">
+        </a-cylinder>
+        <a-cylinder position="0 0.085 -0.331" scale="0.2 0.1 0.2" rotation="0 30 0" color="black"></a-cylinder>
+        <a-cylinder position="0 0.513 -0.332" scale="0.02 0.820 0.02" color="black"></a-cylinder>
+
+
+        <a-box static-body src="#roadb" normal-map="#roadn" repeat="1 1" id="roads" position="0 0 -0.428" depth="0.02"
+            width="2" height=10 rotation="90 0  90" scale="0.709 1 1"></a-box>
+        <a-box static-body src="#roadb" normal-map="#roadn" repeat="1 1" id="roads" position="0 0 2.175" depth="0.02"
+            width="2" height=10 rotation="90 0  180" scale="0.709 1 1"></a-box>
+
+
+
+
+        <a-entity gltf-model="#tree" position="-4.49 0 -1.515"></a-entity>
+
+        <a-entity gltf-model="#tree" position="-2.856 0 -1.515"></a-entity>
+
+        <a-entity gltf-model="#tree" position="0.886 0 -1.515"></a-entity>
+
+        <a-entity gltf-model="#tree" position="2.572 0 -1.515"></a-entity>
+
+
+        <a-entity gltf-model="#tree" position="-0.906 0 3.566"></a-entity>
+
+        <a-entity gltf-model="#tree" position="-0.906 0 2.407"></a-entity>
+
+        <a-entity gltf-model="#tree" position="-0.906 0 0.596"></a-entity>
+
+        <a-entity gltf-model="#tree" position="0.838 0 2.321"></a-entity>
+
+        <a-entity gltf-model="#tree" position="0.838 0 0.570"></a-entity>
+
+        <a-entity gltf-model="#pump" position="2.116 0.037 3.797" rotation="180 90 180" scale="0.2 0.2 0.2">
+        </a-entity>
+
+        <a-entity dynamic-body keypad id="cars" gltf-model="#car" scale="0.12 0.12 0.12" position="0 0 5.12"
+            rotation="180 0 180">
+        </a-entity>
+        <a-entity gltf-model="#station" position="-3.936 -0.427 3.325" rotation="0 90 0" scale="3.5 3.5 3.5">
+        </a-entity>
+        <!-- <a-gltf-model src="model/2tree.gltf" position="-2 0 -3"></a-gltf-model> -->
+    </a-scene>
+</body>
+
+</html>
